@@ -12,5 +12,17 @@ module.exports = (db) => {
         res.status(200).json(users);
     });
 
+    app.get('/api/v1/users/:id', async (req, res) => {
+        const user = await db.findUser(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User Not Found' });
+        }
+
+        res.status(200).json(user);
+
+        console.log(user);
+    });
+
     return app;
 };

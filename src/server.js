@@ -1,14 +1,8 @@
-const express = require('express');
-const cors = require('cors');
+const makeApp = require('./app');
 
-const app = express();
 const PORT = process.env.PORT || 8080;
-
-app.use(express.json());
-app.use(cors());
+const app = makeApp();
 
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
-
-module.exports = app;

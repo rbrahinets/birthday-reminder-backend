@@ -52,10 +52,10 @@ describe('GET /api/v1/users/:id', () => {
 
     test('Should respond with a 200 status code if user found', async () => {
         findUser.mockResolvedValue({
-            _id: 1,
+            id: 1,
             firstName: 'firstName',
             lastName: 'lastName',
-            email: 'email',
+            email: 'test@email.com',
             password: 'password',
         });
 

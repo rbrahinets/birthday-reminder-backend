@@ -12,7 +12,12 @@ const findUser = async (id) => {
     }
 };
 
+const saveUser = async (user) => {
+    return await User.create(user);
+};
+
 module.exports = {
     findUsers,
     findUser,
+    saveUser,
 };

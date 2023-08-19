@@ -20,8 +20,37 @@ module.exports = (db) => {
         }
 
         res.status(200).json(user);
+    });
 
-        console.log(user);
+    app.post('/api/v1/users', async (req, res) => {
+        const user = req.body;
+
+        if (
+            !user.firstName ||
+            user.firstName.trim().length === 0 ||
+            !user.lastName ||
+            user.lastName.trim().length === 0 ||
+            !user.email ||
+            user.email.trim().length === 0 ||
+            !user.password ||
+            user.password.trim().length === 0
+        ) {
+            return res.status(400).json({ message: 'User Data Is Missing' });
+        }
+
+        const users = await db.findUsers();
+
+        for (const existedUser of users) {
+            if (user.email === existedUser.email) {
+                return res
+                    .status(400)
+                    .json({ message: 'Email Is Already In Use' });
+            }
+        }
+
+        const newUser = await db.saveUser(user);
+
+        res.status(201).json({ id: newUser?.id });
     });
 
     return app;

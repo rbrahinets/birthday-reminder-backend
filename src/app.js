@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require('bcrypt');
 
 module.exports = (db) => {
     const app = express();
@@ -47,6 +48,9 @@ module.exports = (db) => {
                     .json({ message: 'Email Is Already In Use' });
             }
         }
+
+        const hashedPassword = await bcrypt.hash(user.password, 10);
+        user.password = hashedPassword;
 
         const newUser = await db.saveUser(user);
 

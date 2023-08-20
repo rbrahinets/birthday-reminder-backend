@@ -81,5 +81,18 @@ module.exports = (db) => {
         res.status(200).json({ id: updatedUser?.id });
     });
 
+    app.delete('/api/v1/users/:id', async (req, res) => {
+        const id = req.params.id;
+        const user = await db.findUser(id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User Not Found' });
+        }
+
+        await db.deleteUser(id);
+
+        res.status(200).json({ message: 'User Successfully Deleted' });
+    });
+
     return app;
 };

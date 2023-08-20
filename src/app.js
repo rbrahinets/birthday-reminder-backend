@@ -53,5 +53,33 @@ module.exports = (db) => {
         res.status(201).json({ id: newUser?.id });
     });
 
+    app.put('/api/v1/users/:id', async (req, res) => {
+        const id = req.params.id;
+        const user = req.body;
+
+        const oldUser = await db.findUser(id);
+
+        if (!oldUser) {
+            return res.status(404).json({ message: 'User Not Found' });
+        }
+
+        if (
+            !user.firstName ||
+            user.firstName.trim().length === 0 ||
+            !user.lastName ||
+            user.lastName.trim().length === 0 ||
+            !user.email ||
+            user.email.trim().length === 0 ||
+            !user.password ||
+            user.password.trim().length === 0
+        ) {
+            return res.status(400).json({ message: 'User Data Is Missing' });
+        }
+
+        const updatedUser = await db.updateUser(id, user);
+
+        res.status(200).json({ id: updatedUser?.id });
+    });
+
     return app;
 };

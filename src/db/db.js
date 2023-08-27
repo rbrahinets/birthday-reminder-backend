@@ -12,6 +12,14 @@ const findUser = async (id) => {
     }
 };
 
+const findUserByEmail = async (email) => {
+    try {
+        return await User.findOne({ email });
+    } catch (error) {
+        return null;
+    }
+};
+
 const saveUser = async (user) => {
     return await User.create(user);
 };
@@ -30,4 +38,5 @@ module.exports = {
     saveUser,
     updateUser,
     deleteUser,
+    findUserByEmail,
 };

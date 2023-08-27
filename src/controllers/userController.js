@@ -2,6 +2,10 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const db = require('../db/db');
 
+const getCurrentUser = async (req, res) => {
+    res.status(200).json(req.user);
+};
+
 const signInUser = async (req, res) => {
     const { email, password } = req.body;
 

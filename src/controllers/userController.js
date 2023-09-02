@@ -3,6 +3,10 @@ const bcrypt = require('bcrypt');
 const db = require('../db/db');
 
 const getCurrentUser = async (req, res) => {
+    if (!req.user) {
+        return res.status(404).json({ message: 'User Not Found' });
+    }
+
     res.status(200).json(req.user);
 };
 

@@ -7,13 +7,7 @@ jest.mock('bcrypt');
 jest.mock('jsonwebtoken');
 jest.mock('../../src/db/db');
 
-const getReq = () => {
-    return {
-        user: { id: 1, firstName: 'firstName', lastName: 'lastName' },
-    };
-};
-
-const getRes = () => {
+describe('User Controller', () => {
     const res = {
         status: jest.fn(() => res),
         json: jest.fn(),
@@ -22,18 +16,15 @@ const getRes = () => {
         },
     };
 
-    return res;
-};
-
-describe('User Controller', () => {
-    const req = getReq();
-    const res = getRes();
-
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     describe('getCurrentUser', () => {
+        const req = {
+            user: { id: 1, firstName: 'firstName', lastName: 'lastName' },
+        };
+
         test('Should respond with a 200 status code', async () => {
             await userController.getCurrentUser(req, res);
 
@@ -63,6 +54,53 @@ describe('User Controller', () => {
 
             expect(res.json).toHaveBeenCalledWith({
                 message: 'User Not Found',
+            });
+        });
+    });
+
+    describe('signInUser', () => {
+        const req = {
+            body: { email: 'test@email.com', password: 'password' },
+        };
+        const user = {
+            id: 1,
+            firstName: 'firstName',
+            lastName: 'lastName',
+            email: 'test@email.com',
+            password: 'hashedPassword',
+        };
+        const accessToken = 'fakeAccessToken';
+
+        it('Should sign in a user with valid credentials', async () => {
+            bcrypt.compare.mockResolvedValue(true);
+            db.findUserByEmail.mockResolvedValue(user);
+            jwt.sign.mockReturnValue(accessToken);
+
+            await userController.signInUser(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith({ accessToken });
+        });
+
+        it('Should return a 401 status for invalid credentials', async () => {
+            bcrypt.compare.mockResolvedValue(false);
+
+            await userController.signInUser(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(401);
+            expect(res.json).toHaveBeenCalledWith({
+                message: 'Email Or Password Is Not Valid',
+            });
+        });
+
+        it('Should return a 400 status for missing user data', async () => {
+            const req = { body: {} };
+
+            await userController.signInUser(req, res);
+
+            expect(res.status).toHaveBeenCalledWith(400);
+            expect(res.json).toHaveBeenCalledWith({
+                message: 'User Data Is Missing',
             });
         });
     });

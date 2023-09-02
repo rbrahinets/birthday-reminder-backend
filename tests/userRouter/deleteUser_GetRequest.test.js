@@ -47,7 +47,7 @@ describe('DELETE /api/v1/users/:id', () => {
         );
     });
 
-    test('Should respond with a 404 status code if user not found', async () => {
+    test('Should respond with a 404 status code and message if user not found', async () => {
         findUser.mockResolvedValue(null);
 
         const response = await getResponse('0');

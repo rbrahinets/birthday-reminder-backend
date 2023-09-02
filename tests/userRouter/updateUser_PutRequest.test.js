@@ -56,7 +56,7 @@ describe('PUT /api/v1/users/:id', () => {
             );
         });
 
-        test('Should respond with a 404 status code if user not found', async () => {
+        test('Should respond with a 404 status code and message if user not found', async () => {
             findUser.mockResolvedValue(null);
 
             const response = await getResponse('0');
@@ -84,7 +84,7 @@ describe('PUT /api/v1/users/:id', () => {
     });
 
     describe('When the user data is missing', () => {
-        test('Shold respond with a 400 status code', async () => {
+        test('Shold respond with a 400 status code and message', async () => {
             const bodyData = [
                 {
                     lastName: 'lastName',

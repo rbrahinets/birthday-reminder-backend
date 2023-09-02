@@ -29,6 +29,7 @@ describe('User Controller', () => {
             await userController.getCurrentUser(req, res);
 
             expect(res.status).toHaveBeenCalledWith(200);
+            expect(res.json).toHaveBeenCalledWith(req.user);
         });
 
         test('Should specify json in the content type header', async () => {
@@ -39,19 +40,12 @@ describe('User Controller', () => {
             );
         });
 
-        test('Should respond with a 404 status code when user not fount', async () => {
+        test('Should respond with a 404 status code and message if user not fount', async () => {
             const req = { user: undefined };
 
             await userController.getCurrentUser(req, res);
 
             expect(res.status).toHaveBeenCalledWith(404);
-        });
-
-        test('Should respond with an error message when user not fount', async () => {
-            const req = { user: undefined };
-
-            await userController.getCurrentUser(req, res);
-
             expect(res.json).toHaveBeenCalledWith({
                 message: 'User Not Found',
             });

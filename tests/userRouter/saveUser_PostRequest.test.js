@@ -72,7 +72,7 @@ describe('POST /api/v1/users', () => {
             expect(response.body.id).toBe('1');
         });
 
-        test('Should respond with 400 status code if email is already in use', async () => {
+        test('Should respond with 400 status code and message if email is already in use', async () => {
             findUsers.mockResolvedValue([{ id: '13', ...newUser }]);
 
             const response = await getResponse();
@@ -85,7 +85,7 @@ describe('POST /api/v1/users', () => {
     });
 
     describe('When the user data is missing', () => {
-        test('Shold respond with a 400 status code', async () => {
+        test('Shold respond with a 400 status code and message', async () => {
             const bodyData = [
                 {
                     lastName: 'lastName',

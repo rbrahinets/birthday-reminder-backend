@@ -1,6 +1,6 @@
 const request = require('supertest');
-const makeApp = require('../../src/app');
-const makeUserRouter = require('../../src/routers/userRouter');
+const makeApp = require('../../../src/app');
+const makeUserRouter = require('../../../src/routers/userRouter');
 
 const findUsers = jest.fn();
 const saveUser = jest.fn();

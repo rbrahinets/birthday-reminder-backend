@@ -12,7 +12,7 @@
         "test": "jest --detectOpenHandles"
     },
     "keywords": [],
-    "author": "",
+    "author": "Rostyslav Brahinets",
     "license": "MIT",
     "dependencies": {
         "bcrypt": "^5.1.1",

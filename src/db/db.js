@@ -1,4 +1,5 @@
 const User = require('../models/userModel');
+const Friend = require('../models/friendModel');
 
 const findUsers = async () => {
     return await User.find();
@@ -32,11 +33,49 @@ const deleteUser = async (id) => {
     return await User.findByIdAndDelete(id);
 };
 
+const findFriends = async () => {
+    return await Friend.find();
+};
+
+const findFriend = async (id) => {
+    try {
+        return await Friend.findById(id);
+    } catch (error) {
+        return null;
+    }
+};
+
+const findFriendByEmail = async (email) => {
+    try {
+        return await Friend.findOne({ email });
+    } catch (error) {
+        return null;
+    }
+};
+
+const saveFriend = async (friend) => {
+    return await Friend.create(friend);
+};
+
+const updateFriend = async (id, friend) => {
+    return await Friend.findByIdAndUpdate(id, friend);
+};
+
+const deleteFriend = async (id) => {
+    return await Friend.findByIdAndDelete(id);
+};
+
 module.exports = {
     findUsers,
     findUser,
+    findUserByEmail,
     saveUser,
     updateUser,
     deleteUser,
-    findUserByEmail,
+    findFriends,
+    findFriend,
+    findFriendByEmail,
+    saveFriend,
+    updateFriend,
+    deleteFriend,
 };

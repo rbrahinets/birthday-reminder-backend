@@ -1,37 +1,37 @@
 const request = require('supertest');
-const makeApp = require('../../src/app');
-const makeUserRouter = require('../../src/routers/userRouter');
+const makeApp = require('../../../src/app');
+const makeFriendRouter = require('../../../src/routers/friendRouter');
 
-const findUsers = jest.fn();
-const saveUser = jest.fn();
+const findFriends = jest.fn();
+const saveFriend = jest.fn();
 
 const mockDb = {
-    findUsers,
-    saveUser,
+    findFriends,
+    saveFriend,
 };
 const app = makeApp(mockDb);
-const userRouter = makeUserRouter(app, mockDb);
+const friendRouter = makeFriendRouter(app, mockDb);
 
-describe('POST /api/v1/users', () => {
-    const newUser = {
+describe('POST /api/v1/friends', () => {
+    const newFriend = {
         firstName: 'firstName',
         lastName: 'lastName',
         email: 'test@email.com',
-        password: 'password',
+        dateOfBirth: '2023-01-01',
     };
 
     const getResponse = async () => {
-        return await request(userRouter).post('/api/v1/users').send(newUser);
+        return await request(friendRouter).post('/api/v1/friends').send(newFriend);
     };
 
     beforeEach(async () => {
-        saveUser.mockReset();
+        saveFriend.mockReset();
     });
 
-    describe('When given a user data', () => {
+    describe('When given a friend data', () => {
         test('Should respond with a 201 status code', async () => {
-            findUsers.mockResolvedValue([
-                { ...newUser, id: '13', email: 'existed@email.com' },
+            findFriends.mockResolvedValue([
+                { ...newFriend, id: '13', email: 'existed@email.com' },
             ]);
 
             const response = await getResponse();
@@ -40,8 +40,8 @@ describe('POST /api/v1/users', () => {
         });
 
         test('Should specify json in the content type header', async () => {
-            findUsers.mockResolvedValue([
-                { ...newUser, id: '13', email: 'existed@email.com' },
+            findFriends.mockResolvedValue([
+                { ...newFriend, id: '13', email: 'existed@email.com' },
             ]);
 
             const response = await getResponse();
@@ -51,21 +51,21 @@ describe('POST /api/v1/users', () => {
             );
         });
 
-        test('Should save the user to the database', async () => {
-            findUsers.mockResolvedValue([
-                { ...newUser, id: '13', email: 'existed@email.com' },
+        test('Should save the friend to the database', async () => {
+            findFriends.mockResolvedValue([
+                { ...newFriend, id: '13', email: 'existed@email.com' },
             ]);
 
             await getResponse();
 
-            expect(saveUser.mock.calls.length).toBe(1);
+            expect(saveFriend.mock.calls.length).toBe(1);
         });
 
         test('Should respond with a json object contain the id', async () => {
-            findUsers.mockResolvedValue([
-                { ...newUser, id: '13', email: 'existed@email.com' },
+            findFriends.mockResolvedValue([
+                { ...newFriend, id: '13', email: 'existed@email.com' },
             ]);
-            saveUser.mockResolvedValue({ id: '1' });
+            saveFriend.mockResolvedValue({ id: '1' });
 
             const response = await getResponse();
 
@@ -73,7 +73,7 @@ describe('POST /api/v1/users', () => {
         });
 
         test('Should respond with 400 status code and message if email is already in use', async () => {
-            findUsers.mockResolvedValue([{ id: '13', ...newUser }]);
+            findFriends.mockResolvedValue([{ id: '13', ...newFriend }]);
 
             const response = await getResponse();
 
@@ -84,23 +84,23 @@ describe('POST /api/v1/users', () => {
         });
     });
 
-    describe('When the user data is missing', () => {
+    describe('When the friend data is missing', () => {
         test('Shold respond with a 400 status code and message', async () => {
             const bodyData = [
                 {
                     lastName: 'lastName',
                     email: 'test@email.com',
-                    password: 'password',
+                    dateOfBirth: '2023-01-01',
                 },
                 {
                     firstName: 'firstName',
                     email: 'test@email.com',
-                    password: 'password',
+                    dateOfBirth: '2023-01-01',
                 },
                 {
                     firstName: 'firstName',
                     lastName: 'lastName',
-                    password: 'password',
+                    dateOfBirth: '2023-01-01',
                 },
                 {
                     firstName: 'firstName',
@@ -111,40 +111,40 @@ describe('POST /api/v1/users', () => {
                     firstName: ' ',
                     lastName: 'lastName',
                     email: 'test@email.com',
-                    password: 'password',
+                    dateOfBirth: '2023-01-01',
                 },
                 {
                     firstName: 'firstName',
                     lastName: ' ',
                     email: 'test@email.com',
-                    password: 'password',
+                    dateOfBirth: '2023-01-01',
                 },
                 {
                     firstName: 'firstName',
                     lastName: 'lastName',
                     email: ' ',
-                    password: 'password',
+                    dateOfBirth: '2023-01-01',
                 },
                 {
                     firstName: 'firstName',
                     lastName: 'lastName',
                     email: 'test@email.com',
-                    password: ' ',
+                    dateOfBirth: ' ',
                 },
             ];
 
             for (const body of bodyData) {
-                findUsers.mockResolvedValue([
-                    { ...newUser, id: '13', email: 'existed@email.com' },
+                findFriends.mockResolvedValue([
+                    { ...newFriend, id: '13', email: 'existed@email.com' },
                 ]);
 
-                const response = await request(userRouter)
-                    .post('/api/v1/users')
+                const response = await request(friendRouter)
+                    .post('/api/v1/friends')
                     .send(body);
 
                 expect(response.statusCode).toBe(400);
                 expect(response.body).toEqual({
-                    message: 'User Data Is Missing',
+                    message: 'Friend Data Is Missing',
                 });
             }
         });

@@ -1,45 +1,45 @@
 const request = require('supertest');
-const makeApp = require('../../src/app');
-const makeUserRouter = require('../../src/routers/userRouter');
+const makeApp = require('../../../src/app');
+const makeFriendRouter = require('../../../src/routers/friendRouter');
 
-const findUser = jest.fn();
-const updateUser = jest.fn();
+const findFriend = jest.fn();
+const updateFriend = jest.fn();
 
 const mockDb = {
-    findUser,
-    updateUser,
+    findFriend: findFriend,
+    updateFriend: updateFriend,
 };
 const app = makeApp(mockDb);
-const userRouter = makeUserRouter(app, mockDb);
+const friendRouter = makeFriendRouter(app, mockDb);
 
-describe('PUT /api/v1/users/:id', () => {
-    const oldUser = {
+describe('PUT /api/v1/friends/:id', () => {
+    const oldFriend = {
         firstName: 'firstName',
         lastName: 'lastName',
         email: 'test@email.com',
-        password: 'password',
+        dateOfBirth: '2023-01-01',
     };
 
-    const updatedUser = {
+    const updatedFriend = {
         firstName: 'name',
         lastName: 'surname',
         email: 'test@email.com',
-        password: 'password',
+        dateOfBirth: '2022-01-01',
     };
 
     const getResponse = async (id) => {
-        return await request(userRouter)
-            .put(`/api/v1/users/${id}`)
-            .send(updatedUser);
+        return await request(friendRouter)
+            .put(`/api/v1/friends/${id}`)
+            .send(updatedFriend);
     };
 
     beforeEach(async () => {
-        updateUser.mockReset();
+        updateFriend.mockReset();
     });
 
-    describe('When given a user data', () => {
+    describe('When given a friend data', () => {
         test('Should respond with a 200 status code', async () => {
-            findUser.mockResolvedValue({ ...oldUser, id: '1' });
+            findFriend.mockResolvedValue({ ...oldFriend, id: '1' });
 
             const response = await getResponse('1');
 
@@ -47,7 +47,7 @@ describe('PUT /api/v1/users/:id', () => {
         });
 
         test('Should specify json in the content type header', async () => {
-            findUser.mockResolvedValue({ ...oldUser, id: '1' });
+            findFriend.mockResolvedValue({ ...oldFriend, id: '1' });
 
             const response = await getResponse('1');
 
@@ -56,26 +56,26 @@ describe('PUT /api/v1/users/:id', () => {
             );
         });
 
-        test('Should respond with a 404 status code and message if user not found', async () => {
-            findUser.mockResolvedValue(null);
+        test('Should respond with a 404 status code and message if friend not found', async () => {
+            findFriend.mockResolvedValue(null);
 
             const response = await getResponse('0');
 
             expect(response.statusCode).toBe(404);
-            expect(response.body).toEqual({ message: 'User Not Found' });
+            expect(response.body).toEqual({ message: 'Friend Not Found' });
         });
 
-        test('Should update the user in the database', async () => {
-            findUser.mockResolvedValue({ ...oldUser, id: '1' });
+        test('Should update the friend in the database', async () => {
+            findFriend.mockResolvedValue({ ...oldFriend, id: '1' });
 
             await getResponse('1');
 
-            expect(updateUser.mock.calls.length).toBe(1);
+            expect(updateFriend.mock.calls.length).toBe(1);
         });
 
         test('Should respond with a json object contain the id', async () => {
-            findUser.mockResolvedValue({ ...oldUser, id: '1' });
-            updateUser.mockResolvedValue({ id: '1' });
+            findFriend.mockResolvedValue({ ...oldFriend, id: '1' });
+            updateFriend.mockResolvedValue({ id: '1' });
 
             const response = await getResponse('1');
 
@@ -83,23 +83,23 @@ describe('PUT /api/v1/users/:id', () => {
         });
     });
 
-    describe('When the user data is missing', () => {
+    describe('When the friend data is missing', () => {
         test('Shold respond with a 400 status code and message', async () => {
             const bodyData = [
                 {
                     lastName: 'lastName',
                     email: 'test@email.com',
-                    password: 'password',
+                    dateOfBirth: '2022-01-01',
                 },
                 {
                     firstName: 'firstName',
                     email: 'test@email.com',
-                    password: 'password',
+                    dateOfBirth: '2022-01-01',
                 },
                 {
                     firstName: 'firstName',
                     lastName: 'lastName',
-                    password: 'password',
+                    dateOfBirth: '2022-01-01',
                 },
                 {
                     firstName: 'firstName',
@@ -110,38 +110,38 @@ describe('PUT /api/v1/users/:id', () => {
                     firstName: ' ',
                     lastName: 'lastName',
                     email: 'test@email.com',
-                    password: 'password',
+                    dateOfBirth: '2022-01-01',
                 },
                 {
                     firstName: 'firstName',
                     lastName: ' ',
                     email: 'test@email.com',
-                    password: 'password',
+                    dateOfBirth: '2022-01-01',
                 },
                 {
                     firstName: 'firstName',
                     lastName: 'lastName',
                     email: ' ',
-                    password: 'password',
+                    dateOfBirth: '2022-01-01',
                 },
                 {
                     firstName: 'firstName',
                     lastName: 'lastName',
                     email: 'test@email.com',
-                    password: ' ',
+                    dateOfBirth: ' ',
                 },
             ];
 
             for (const body of bodyData) {
-                findUser.mockResolvedValue({ ...oldUser, id: '1' });
+                findFriend.mockResolvedValue({ ...oldFriend, id: '1' });
 
-                const response = await request(userRouter)
-                    .put('/api/v1/users/1')
+                const response = await request(friendRouter)
+                    .put('/api/v1/friends/1')
                     .send(body);
 
                 expect(response.statusCode).toBe(400);
                 expect(response.body).toEqual({
-                    message: 'User Data Is Missing',
+                    message: 'Friend Data Is Missing',
                 });
             }
         });

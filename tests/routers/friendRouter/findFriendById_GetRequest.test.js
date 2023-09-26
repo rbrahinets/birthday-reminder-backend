@@ -1,31 +1,31 @@
 const request = require('supertest');
-const makeApp = require('../../src/app');
-const makeUserRouter = require('../../src/routers/userRouter');
+const makeApp = require('../../../src/app');
+const makeFriendRouter = require('../../../src/routers/friendRouter');
 
-const findUser = jest.fn();
+const findFriend = jest.fn();
 
 const mockDb = {
-    findUser,
+    findFriend,
 };
 const app = makeApp(mockDb);
-const userRouter = makeUserRouter(app, mockDb);
+const friendRouter = makeFriendRouter(app, mockDb);
 
-describe('GET /api/v1/users/:id', () => {
+describe('GET /api/v1/friends/:id', () => {
     const getResponse = async (id) => {
-        return await request(userRouter).get(`/api/v1/users/${id}`);
+        return await request(friendRouter).get(`/api/v1/friends/${id}`);
     };
 
     beforeEach(async () => {
-        findUser.mockReset();
+        findFriend.mockReset();
     });
 
     test('Should respond with a 200 status code if user found', async () => {
-        findUser.mockResolvedValue({
+        findFriend.mockResolvedValue({
             id: 1,
             firstName: 'firstName',
             lastName: 'lastName',
             email: 'test@email.com',
-            password: 'password',
+            dateOfBirth: '2023-01-01',
         });
 
         const response = await getResponse(1);
@@ -34,12 +34,12 @@ describe('GET /api/v1/users/:id', () => {
     });
 
     test('Should respond with a 404 status code and message if user not found', async () => {
-        findUser.mockResolvedValue(null);
+        findFriend.mockResolvedValue(null);
 
         const response = await getResponse(0);
 
         expect(response.statusCode).toBe(404);
-        expect(response.body).toEqual({ message: 'User Not Found' });
+        expect(response.body).toEqual({ message: 'Friend Not Found' });
     });
 
     test('Should specify json in the content type header', async () => {
@@ -53,6 +53,6 @@ describe('GET /api/v1/users/:id', () => {
     test('Should get user from database', async () => {
         await getResponse(1);
 
-        expect(findUser.mock.calls.length).toBe(1);
+        expect(findFriend.mock.calls.length).toBe(1);
     });
 });

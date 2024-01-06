@@ -65,6 +65,10 @@ const deleteFriend = async (id) => {
     return await Friend.findByIdAndDelete(id);
 };
 
+const findFriendsForUserByEmail = async (emailOfUser) => {
+    return await Friend.find({emailOfUser});
+};
+
 module.exports = {
     findUsers,
     findUser,
@@ -78,4 +82,5 @@ module.exports = {
     saveFriend,
     updateFriend,
     deleteFriend,
+    findFriendsForUserByEmail,
 };

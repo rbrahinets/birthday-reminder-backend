@@ -88,5 +88,10 @@ module.exports = (app, db) => {
         res.status(200).json({ message: 'Friend Successfully Deleted' });
     });
 
+    app.get('/api/v1/friends/emails/:email', async (req, res) => {
+        const friends = await db.findFriendsForUserByEmail(req.params.email);
+        res.status(200).json(friends);
+    });
+
     return app;
 };

@@ -22,7 +22,6 @@ const friendSchema = mongoose.Schema(
         emailOfUser: {
             type: String,
             required: [true, 'Please add the user email address'],
-            unique: [true, 'Email address already taken'],
         },
     },
     {

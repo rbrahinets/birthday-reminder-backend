@@ -35,10 +35,10 @@ module.exports = (app, db) => {
         const friends = await db.findFriends();
 
         for (const existedFriend of friends) {
-            if (friend.email === existedFriend.email) {
+            if (friend.email === existedFriend.email && friend.emailOfUser === existedFriend.emailOfUser) {
                 return res
                     .status(400)
-                    .json({ message: 'Email Is Already In Use' });
+                    .json({ message: 'Friend Is Already Exist' });
             }
         }
 

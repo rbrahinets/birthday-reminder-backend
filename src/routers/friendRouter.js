@@ -25,7 +25,9 @@ module.exports = (app, db) => {
             !friend.email ||
             friend.email.trim().length === 0 ||
             !friend.dateOfBirth ||
-            friend.dateOfBirth.trim().length === 0
+            friend.dateOfBirth.trim().length === 0 ||
+            !friend.emailOfUser ||
+            friend.emailOfUser.trim().length === 0
         ) {
             return res.status(400).json({ message: 'Friend Data Is Missing' });
         }

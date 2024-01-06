@@ -13,7 +13,6 @@ const friendSchema = mongoose.Schema(
         email: {
             type: String,
             required: [true, 'Please add the friend email address'],
-            unique: [true, 'Email address already taken'],
         },
         dateOfBirth: {
             type: Date,

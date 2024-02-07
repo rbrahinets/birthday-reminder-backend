@@ -74,11 +74,7 @@ module.exports = (app, db) => {
             !user.firstName ||
             user.firstName.trim().length === 0 ||
             !user.lastName ||
-            user.lastName.trim().length === 0 ||
-            !user.email ||
-            user.email.trim().length === 0 ||
-            !user.password ||
-            user.password.trim().length === 0
+            user.lastName.trim().length === 0
         ) {
             return res.status(400).json({message: 'User Data Is Missing'});
         }

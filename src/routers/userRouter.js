@@ -16,6 +16,16 @@ module.exports = (app, db) => {
         res.status(200).json(user);
     });
 
+    app.get('/api/v1/users/email/:email', async (req, res) => {
+        const user = await db.findUserByEmail(req.params.email);
+
+        if (!user) {
+            return res.status(404).json({message: 'User Not Found'});
+        }
+
+        res.status(200).json(user);
+    });
+
     app.post('/api/v1/users', async (req, res) => {
         const user = req.body;
 

@@ -10,7 +10,7 @@ module.exports = (app, db) => {
         const user = await db.findUser(req.params.id);
 
         if (!user) {
-            return res.status(404).json({ message: 'User Not Found' });
+            return res.status(404).json({message: 'User Not Found'});
         }
 
         res.status(200).json(user);
@@ -39,7 +39,7 @@ module.exports = (app, db) => {
             !user.password ||
             user.password.trim().length === 0
         ) {
-            return res.status(400).json({ message: 'User Data Is Missing' });
+            return res.status(400).json({message: 'User Data Is Missing'});
         }
 
         const users = await db.findUsers();
@@ -48,7 +48,7 @@ module.exports = (app, db) => {
             if (user.email === existedUser.email) {
                 return res
                     .status(400)
-                    .json({ message: 'Email Is Already In Use' });
+                    .json({message: 'Email Is Already In Use'});
             }
         }
 
@@ -57,7 +57,7 @@ module.exports = (app, db) => {
 
         const newUser = await db.saveUser(user);
 
-        res.status(201).json({ id: newUser?.id });
+        res.status(201).json({id: newUser?.id});
     });
 
     app.put('/api/v1/users/:id', async (req, res) => {
@@ -67,7 +67,7 @@ module.exports = (app, db) => {
         const oldUser = await db.findUser(id);
 
         if (!oldUser) {
-            return res.status(404).json({ message: 'User Not Found' });
+            return res.status(404).json({message: 'User Not Found'});
         }
 
         if (
@@ -80,12 +80,12 @@ module.exports = (app, db) => {
             !user.password ||
             user.password.trim().length === 0
         ) {
-            return res.status(400).json({ message: 'User Data Is Missing' });
+            return res.status(400).json({message: 'User Data Is Missing'});
         }
 
         const updatedUser = await db.updateUser(id, user);
 
-        res.status(200).json({ id: updatedUser?.id });
+        res.status(200).json({id: updatedUser?.id});
     });
 
     app.delete('/api/v1/users/:id', async (req, res) => {
@@ -93,12 +93,12 @@ module.exports = (app, db) => {
         const user = await db.findUser(id);
 
         if (!user) {
-            return res.status(404).json({ message: 'User Not Found' });
+            return res.status(404).json({message: 'User Not Found'});
         }
 
         await db.deleteUser(id);
 
-        res.status(200).json({ message: 'User Successfully Deleted' });
+        res.status(200).json({message: 'User Successfully Deleted'});
     });
 
     return app;

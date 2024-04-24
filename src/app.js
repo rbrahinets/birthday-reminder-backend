@@ -1,17 +1,13 @@
 const express = require('express');
 const cors = require('cors');
-const userRouter = require('./routers/userRouter');
-const friendRouter = require('./routers/friendRouter');
+const friendRoutes = require('./routes/friendRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
 app.use(express.json());
 app.use(cors());
-app.use('/api/v1/users', require('./routes/userRoutes'));
+app.use('/api/v1/friends', friendRoutes);
+app.use('/api/v1/users', userRoutes);
 
-module.exports = (db) => {
-    app.set(userRouter(app, db));
-    app.set(friendRouter(app, db));
-
-    return app;
-};
+module.exports = app;

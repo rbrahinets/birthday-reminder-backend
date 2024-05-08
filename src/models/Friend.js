@@ -22,6 +22,9 @@ const friendSchema = mongoose.Schema(
             type: String,
             required: [true, 'Please add the user email address'],
         },
+        imageUrl: {
+            type: String,
+        },
     },
     {
         timestamps: true,

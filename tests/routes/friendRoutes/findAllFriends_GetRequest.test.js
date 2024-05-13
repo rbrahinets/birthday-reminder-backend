@@ -1,15 +1,15 @@
 const request = require('supertest');
 const app = require('../../../src/app');
-const Friend = require('../../../src/models/Friend');
+const Birthday = require('../../../src/models/Birthday');
 
-jest.mock('../../../src/models/Friend');
+jest.mock('../../../src/models/Birthday');
 
-describe('GET /api/v1/friends', () => {
+describe('GET /api/v1/birthdays', () => {
     const getResponse = () => {
-        return request(app).get('/api/v1/friends');
+        return request(app).get('/api/v1/birthdays');
     };
 
-    const mockFriends = [
+    const mockBirthdays = [
         {
             id: '1',
             firstName: 'Bart',
@@ -28,7 +28,7 @@ describe('GET /api/v1/friends', () => {
         },
     ];
 
-    Friend.find.mockResolvedValue(mockFriends);
+    Birthday.find.mockResolvedValue(mockBirthdays);
 
     it('should respond with a 200 status code', async () => {
         expect((await getResponse()).statusCode).toBe(200);
@@ -40,11 +40,11 @@ describe('GET /api/v1/friends', () => {
         );
     });
 
-    it('should return a list of friends', async () => {
-        expect((await getResponse()).body).toEqual(mockFriends);
+    it('should return a list of birthdays', async () => {
+        expect((await getResponse()).body).toEqual(mockBirthdays);
     });
 
-    it('should contain 2 friends', async () => {
+    it('should contain 2 birthdays', async () => {
         expect((await getResponse()).body.length).toBe(2);
     });
 });

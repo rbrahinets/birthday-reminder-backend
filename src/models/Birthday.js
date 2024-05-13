@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const friendSchema = mongoose.Schema(
+const birthdaySchema = mongoose.Schema(
     {
         firstName: {
             type: String,
@@ -12,7 +12,7 @@ const friendSchema = mongoose.Schema(
         },
         email: {
             type: String,
-            required: [true, 'Please add the friend email address'],
+            required: [true, 'Please add the email'],
         },
         dateOfBirth: {
             type: Date,
@@ -20,7 +20,7 @@ const friendSchema = mongoose.Schema(
         },
         emailOfUser: {
             type: String,
-            required: [true, 'Please add the user email address'],
+            required: [true, 'Please add the user email'],
         },
         imageUrl: {
             type: String,
@@ -31,4 +31,4 @@ const friendSchema = mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model('Friend', friendSchema);
+module.exports = mongoose.model('Birthday', birthdaySchema);

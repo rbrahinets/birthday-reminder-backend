@@ -1,19 +1,19 @@
 const {
-    getFriends,
-    getFriend,
-    saveFriend,
-    updateFriend,
-    deleteFriend,
-    getFriendsForUserByEmail
-} = require('./../../../src/controllers/friendController');
-const friendRepository = require('./../../../src/services/friendService');
+    getBirthdays,
+    getBirthday,
+    saveBirthday,
+    updateBirthday,
+    deleteBirthday,
+    getBirthdaysForUserByEmail,
+} = require('../../../src/controllers/birthdayController');
+const birthdayRepository = require('../../../src/services/birthdayService');
 const httpMocks = require('node-mocks-http');
 
-jest.mock('./../../../src/services/friendService');
+jest.mock('../../../src/services/birthdayService');
 
-describe('Friend Controller', () => {
-    test('should return a list of friends', async () => {
-        const mockFriends = [
+describe('Birthday Controller', () => {
+    test('should return a list of birthdays', async () => {
+        const mockBirthdays = [
             {
                 id: '1',
                 firstName: 'Bart',
@@ -32,20 +32,19 @@ describe('Friend Controller', () => {
             },
         ];
 
-        friendRepository.findFriends.mockResolvedValue(mockFriends);
+        birthdayRepository.findBirthdays.mockResolvedValue(mockBirthdays);
 
         const req = httpMocks.createRequest();
         const res = httpMocks.createResponse();
 
-        await getFriends(req, res);
+        await getBirthdays(req, res);
 
         expect(res.statusCode).toBe(200);
-        expect(res._getJSONData()).toEqual(mockFriends);
+        expect(res._getJSONData()).toEqual(mockBirthdays);
     });
 
-    test('should return a single friend by ID', async () => {
-        // Mock data
-        const mockFriend = {
+    test('should return a single birthday by ID', async () => {
+        const mockBirthday = {
             id: '1',
             firstName: 'Bart',
             lastName: 'Simpson',
@@ -54,31 +53,31 @@ describe('Friend Controller', () => {
             emailOfUser: 'philip.fry@gmail.com',
         };
 
-        friendRepository.findFriend.mockResolvedValue(mockFriend);
+        birthdayRepository.findBirthday.mockResolvedValue(mockBirthday);
 
         const req = httpMocks.createRequest({params: {id: '1'}});
         const res = httpMocks.createResponse();
 
-        await getFriend(req, res);
+        await getBirthday(req, res);
 
         expect(res.statusCode).toBe(200);
-        expect(res._getJSONData()).toEqual(mockFriend);
+        expect(res._getJSONData()).toEqual(mockBirthday);
     });
 
-    test('should return 404 when friend not found', async () => {
-        friendRepository.findFriend.mockResolvedValue(null);
+    test('should return 404 when birthday not found', async () => {
+        birthdayRepository.findBirthday.mockResolvedValue(null);
 
         const req = httpMocks.createRequest({params: {id: '0'}});
         const res = httpMocks.createResponse();
 
-        await getFriend(req, res);
+        await getBirthday(req, res);
 
         expect(res.statusCode).toBe(404);
-        expect(res._getJSONData()).toEqual({message: 'Friend Not Found'});
+        expect(res._getJSONData()).toEqual({message: 'Birthday Not Found'});
     });
 
-    test('should save a new friend and return its ID', async () => {
-        const newFriend = {
+    test('should save a new birthday and return its ID', async () => {
+        const newBirthday = {
             firstName: 'Bart',
             lastName: 'Simpson',
             email: 'bart.simpson@gmail.com',
@@ -86,35 +85,35 @@ describe('Friend Controller', () => {
             emailOfUser: 'philip.fry@gmail.com',
         };
 
-        friendRepository.findFriends.mockResolvedValue([]);
-        friendRepository.saveFriend.mockResolvedValue({id: '1'});
+        birthdayRepository.findBirthdays.mockResolvedValue([]);
+        birthdayRepository.saveBirthday.mockResolvedValue({id: '1'});
 
-        const req = httpMocks.createRequest({body: newFriend});
+        const req = httpMocks.createRequest({body: newBirthday});
         const res = httpMocks.createResponse();
 
-        await saveFriend(req, res);
+        await saveBirthday(req, res);
 
         expect(res.statusCode).toBe(201);
         expect(res._getJSONData()).toEqual({id: '1'});
     });
 
     test('should return 400 when required fields are missing', async () => {
-        const invalidFriend = {
+        const invalidBirthday = {
             firstName: '',
             lastName: 'Simpson',
         };
 
-        const req = httpMocks.createRequest({body: invalidFriend});
+        const req = httpMocks.createRequest({body: invalidBirthday});
         const res = httpMocks.createResponse();
 
-        await saveFriend(req, res);
+        await saveBirthday(req, res);
 
         expect(res.statusCode).toBe(400);
-        expect(res._getJSONData()).toEqual({message: 'Friend Data Is Missing'});
+        expect(res._getJSONData()).toEqual({message: 'Birthday Data Is Missing'});
     });
 
-    test('should update an existing friend and return its ID', async () => {
-        const updatedFriend = {
+    test('should update an existing birthday and return its ID', async () => {
+        const updatedBirthday = {
             firstName: 'Lisa',
             lastName: 'Simpson',
             email: 'lisa.simpson@gmail.com',
@@ -122,58 +121,57 @@ describe('Friend Controller', () => {
             emailOfUser: 'philip.fry@gmail.com',
         };
 
-        friendRepository.findFriend.mockResolvedValue({id: '1', firstName: 'Bart', lastName: 'Simpson'});
+        birthdayRepository.findBirthday.mockResolvedValue({id: '1', firstName: 'Bart', lastName: 'Simpson'});
 
-        friendRepository.updateFriend.mockResolvedValue({id: '1', ...updatedFriend});
+        birthdayRepository.updateBirthday.mockResolvedValue({id: '1', ...updatedBirthday});
 
-        const req = httpMocks.createRequest({params: {id: '1'}, body: updatedFriend});
+        const req = httpMocks.createRequest({params: {id: '1'}, body: updatedBirthday});
         const res = httpMocks.createResponse();
 
-        await updateFriend(req, res);
+        await updateBirthday(req, res);
 
         expect(res.statusCode).toBe(200);
         expect(res._getJSONData()).toEqual({id: '1'});
     });
 
-    test('should return 404 when updating a non-existent friend', async () => {
-        friendRepository.findFriend.mockResolvedValue(null);
+    test('should return 404 when updating a non-existent birthday', async () => {
+        birthdayRepository.findBirthday.mockResolvedValue(null);
 
         const req = httpMocks.createRequest({params: {id: '0'}, body: {firstName: 'Homer'}});
         const res = httpMocks.createResponse();
 
-        await updateFriend(req, res);
+        await updateBirthday(req, res);
 
         expect(res.statusCode).toBe(404);
-        expect(res._getJSONData()).toEqual({message: 'Friend Not Found'});
+        expect(res._getJSONData()).toEqual({message: 'Birthday Not Found'});
     });
 
-    test('should delete an existing friend and return success message', async () => {
-        friendRepository.findFriend.mockResolvedValue({id: '1'});
+    test('should delete an existing birthday and return success message', async () => {
+        birthdayRepository.findBirthday.mockResolvedValue({id: '1'});
 
         const req = httpMocks.createRequest({params: {id: '1'}});
         const res = httpMocks.createResponse();
 
-        await deleteFriend(req, res);
+        await deleteBirthday(req, res);
 
         expect(res.statusCode).toBe(200);
-        expect(res._getJSONData()).toEqual({message: 'Friend Successfully Deleted'});
+        expect(res._getJSONData()).toEqual({message: 'Birthday Successfully Deleted'});
     });
 
-    test('should return 404 when deleting a non-existent friend', async () => {
-        // Mock the `findFriend` method to return null
-        friendRepository.findFriend.mockResolvedValue(null);
+    test('should return 404 when deleting a non-existent birthday', async () => {
+        birthdayRepository.findBirthday.mockResolvedValue(null);
 
         const req = httpMocks.createRequest({params: {id: '1'}});
         const res = httpMocks.createResponse();
 
-        await deleteFriend(req, res);
+        await deleteBirthday(req, res);
 
         expect(res.statusCode).toBe(404);
-        expect(res._getJSONData()).toEqual({message: 'Friend Not Found'});
+        expect(res._getJSONData()).toEqual({message: 'Birthday Not Found'});
     });
 
-    test('should return friends for a user by email', async () => {
-        const friendsForUserByEmail = [
+    test('should return birthdays for a user by email', async () => {
+        const birthdaysForUserByEmail = [
             {
                 id: '1',
                 firstName: 'Bart',
@@ -192,14 +190,14 @@ describe('Friend Controller', () => {
             },
         ];
 
-        friendRepository.findFriendsForUserByEmail.mockResolvedValue(friendsForUserByEmail);
+        birthdayRepository.findBirthdaysForUserByEmail.mockResolvedValue(birthdaysForUserByEmail);
 
         const req = httpMocks.createRequest({params: {email: 'philip.fry@gmail.com'}});
         const res = httpMocks.createResponse();
 
-        await getFriendsForUserByEmail(req, res);
+        await getBirthdaysForUserByEmail(req, res);
 
         expect(res.statusCode).toBe(200);
-        expect(res._getJSONData()).toEqual(friendsForUserByEmail);
+        expect(res._getJSONData()).toEqual(birthdaysForUserByEmail);
     });
 });

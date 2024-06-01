@@ -1,11 +1,11 @@
 const express = require('express');
 const {
-    getBirthdays,
-    getBirthday,
-    saveBirthday,
-    updateBirthday,
-    deleteBirthday,
-    getBirthdaysForUserByEmail,
+  getBirthdays,
+  getBirthday,
+  saveBirthday,
+  updateBirthday,
+  deleteBirthday,
+  getBirthdaysForUserByEmail,
 } = require('../controllers/birthdayController');
 
 const router = express.Router();

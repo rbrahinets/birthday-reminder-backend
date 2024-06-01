@@ -1,14 +1,14 @@
 const express = require('express');
 const validateToken = require('../middlewares/validateTokenHandler');
 const {
-    getUsers,
-    getUser,
-    saveUser,
-    updateUser,
-    deleteUser,
-    getUserByEmail,
-    getCurrentUser,
-    signInUser,
+  getUsers,
+  getUser,
+  saveUser,
+  updateUser,
+  deleteUser,
+  getUserByEmail,
+  getCurrentUser,
+  signInUser,
 } = require('../controllers/userController');
 
 const router = express.Router();

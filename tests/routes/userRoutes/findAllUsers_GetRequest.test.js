@@ -15,14 +15,12 @@ describe('GET /api/v1/users', () => {
       firstName: 'Bart',
       lastName: 'Simpson',
       email: 'bart.simpson@gmail.com',
-      password: 'bart',
     },
     {
       id: '2',
       firstName: 'Homer',
       lastName: 'Simpson',
       email: 'homer.simpson@gmail.com',
-      password: 'homer',
     },
   ];
 

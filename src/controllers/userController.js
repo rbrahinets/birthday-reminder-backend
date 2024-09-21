@@ -26,9 +26,7 @@ const saveUser = async (req, res) => {
     !user.lastName ||
     user.lastName.trim().length === 0 ||
     !user.email ||
-    user.email.trim().length === 0 ||
-    !user.password ||
-    user.password.trim().length === 0
+    user.email.trim().length === 0
   ) {
     return res.status(400).json({message: 'User Data Is Missing'});
   }
@@ -42,9 +40,6 @@ const saveUser = async (req, res) => {
         .json({message: 'Email Is Already In Use'});
     }
   }
-
-  const hashedPassword = await bcrypt.hash(user.password, 10);
-  user.password = hashedPassword;
 
   const newUser = await userService.saveUser(user);
 
@@ -98,41 +93,6 @@ const getUserByEmail = async (req, res) => {
   res.status(200).json(user);
 };
 
-const getCurrentUser = async (req, res) => {
-  if (!req.user) {
-    return res.status(404).json({message: 'User Not Found'});
-  }
-
-  res.status(200).json(req.user);
-};
-
-const signInUser = async (req, res) => {
-  const {email, password} = req.body;
-
-  if (!email || !password) {
-    return res.status(400).json({message: 'User Data Is Missing'});
-  }
-
-  const user = await userService.findUserByEmail(email);
-
-  if (user && (await bcrypt.compare(password, user.password))) {
-    const accessToken = jwt.sign(
-      {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: email,
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      {expiresIn: '1m'}
-    );
-
-    res.status(200).json({accessToken});
-  } else {
-    res.status(401).json({message: 'Email Or Password Is Not Valid'});
-  }
-};
-
 module.exports = {
   getUsers,
   getUser,
@@ -140,6 +100,4 @@ module.exports = {
   updateUser,
   deleteUser,
   getUserByEmail,
-  getCurrentUser,
-  signInUser,
 };

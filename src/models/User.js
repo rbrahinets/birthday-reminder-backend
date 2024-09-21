@@ -15,10 +15,6 @@ const userSchema = mongoose.Schema(
       required: [true, 'Please add the user email address'],
       unique: [true, 'Email address already taken'],
     },
-    password: {
-      type: String,
-      required: [true, 'Please add the password'],
-    },
     imageUrl: {
       type: String,
     },

@@ -25,12 +25,7 @@ const saveBirthday = async (req, res) => {
     birthday.lastName.trim().length === 0 ||
     !birthday.email ||
     birthday.email.trim().length === 0 ||
-    !birthday.dateOfBirth ||
-    birthday.dateOfBirth.trim().length === 0 ||
-    !birthday.emailOfUser ||
-    birthday.emailOfUser.trim().length === 0 ||
-    !birthday.emailOfUser ||
-    birthday.emailOfUser.trim().length === 0
+    !birthday.dateOfBirth || birthday.dateOfBirth.trim().length === 0
   ) {
     return res.status(400).json({message: 'Birthday Data Is Missing'});
   }

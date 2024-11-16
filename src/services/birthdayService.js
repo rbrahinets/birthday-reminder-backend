@@ -17,7 +17,7 @@ const saveBirthday = async (birthday) => {
   const createdBirthday = await Birthday.create(birthday);
   const dateOfBirth = birthday.dateOfBirth.split('-');
   setEmailNotification(
-    birthday.userEmail,
+    birthday.emailOfUser,
     `${birthday.firstName} ${birthday.lastName}`,
     dateOfBirth[2],
     (+dateOfBirth[1] - 1).toString()

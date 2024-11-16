@@ -1,4 +1,5 @@
 const Birthday = require('../models/Birthday');
+const {setEmailNotification} = require('../features/schedule/emailNotification');
 
 const findBirthdays = async () => {
   return Birthday.find();
@@ -13,7 +14,15 @@ const findBirthday = async (id) => {
 };
 
 const saveBirthday = async (birthday) => {
-  return await Birthday.create(birthday);
+  const createdBirthday = await Birthday.create(birthday);
+  const dateOfBirth = birthday.dateOfBirth.split('-');
+  setEmailNotification(
+    birthday.userEmail,
+    `${birthday.firstName} ${birthday.lastName}`,
+    dateOfBirth[2],
+    (+dateOfBirth[1] - 1).toString()
+  );
+  return createdBirthday;
 };
 
 const updateBirthday = async (id, birthday) => {

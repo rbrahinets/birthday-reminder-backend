@@ -41,7 +41,7 @@ const scheduleEmailNotification = async (birthday) => {
     `0 12 ${day} ${month} *`, async () => {
       await sendEmailNotification(email, fullName)
     },
-    { timezone: 'Europe/Kyiv' },
+    { timezone: 'Europe/Kiev' },
   )
 }
 

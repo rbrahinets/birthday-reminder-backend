@@ -37,11 +37,8 @@ const scheduleEmailNotification = async (birthday) => {
   const day = +dateOfBirth[2] - 1
   const month = +dateOfBirth[1]
 
-  console.log(`${+dateOfBirth[2] - 1}/${+dateOfBirth[1]}`)
-  console.log(new Date())
-
   cron.schedule(
-    `13 13 ${day} ${month} *`, async () => {
+    `17 11 ${day} ${month} *`, async () => {
       await sendEmailNotification(email, fullName)
     },
   )

@@ -38,10 +38,10 @@ const scheduleEmailNotification = async (birthday) => {
   const month = +dateOfBirth[1]
 
   cron.schedule(
-    `0 12 ${day} ${month} *`, async () => {
+    `0 13 ${day} ${month} *`, async () => {
       await sendEmailNotification(email, fullName)
     },
-    { timezone: 'Europe/Kiev' },
+    { timezone: 'Europe/Kyiv' },
   )
 }
 

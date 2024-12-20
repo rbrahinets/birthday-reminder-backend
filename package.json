@@ -8,6 +8,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node src/server.js",
+    "build": "npm install",
     "dev": "nodemon src/server.js",
     "test": "jest --detectOpenHandles"
   },

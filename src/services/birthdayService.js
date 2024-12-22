@@ -24,14 +24,6 @@ const deleteBirthday = async (id) => {
   return Birthday.findByIdAndDelete(id)
 }
 
-const findBirthdayByEmail = async (email) => {
-  try {
-    return await Birthday.findOne({ email })
-  } catch (error) {
-    return null
-  }
-}
-
 const findBirthdaysForUserByEmail = async (emailOfUser) => {
   return Birthday.find({ emailOfUser })
 }
@@ -42,6 +34,5 @@ module.exports = {
   saveBirthday,
   updateBirthday,
   deleteBirthday,
-  findBirthdayByEmail,
   findBirthdaysForUserByEmail,
 }

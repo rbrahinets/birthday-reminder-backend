@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
 const birthdaySchema = mongoose.Schema(
   {
@@ -9,10 +9,6 @@ const birthdaySchema = mongoose.Schema(
     lastName: {
       type: String,
       required: [true, 'Please add the last name'],
-    },
-    email: {
-      type: String,
-      required: [true, 'Please add the email'],
     },
     dateOfBirth: {
       type: Date,
@@ -28,7 +24,7 @@ const birthdaySchema = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
-);
+  },
+)
 
-module.exports = mongoose.model('Birthday', birthdaySchema);
+module.exports = mongoose.model('Birthday', birthdaySchema)

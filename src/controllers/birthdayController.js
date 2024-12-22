@@ -24,21 +24,9 @@ const saveBirthday = async (req, res) => {
     birthday.firstName.trim().length === 0 ||
     !birthday.lastName ||
     birthday.lastName.trim().length === 0 ||
-    !birthday.email ||
-    birthday.email.trim().length === 0 ||
     !birthday.dateOfBirth || birthday.dateOfBirth.trim().length === 0
   ) {
     return res.status(400).json({ message: 'Birthday Data Is Missing' })
-  }
-
-  const birthdays = await birthdayService.findBirthdays()
-
-  for (const existedBirthday of birthdays) {
-    if (birthday.email === existedBirthday.email && birthday.emailOfUser === existedBirthday.emailOfUser) {
-      return res
-        .status(400)
-        .json({ message: 'Birthday Is Already Exist' })
-    }
   }
 
   const newBirthday = await birthdayService.saveBirthday(birthday)
@@ -63,8 +51,6 @@ const updateBirthday = async (req, res) => {
     birthday.firstName.trim().length === 0 ||
     !birthday.lastName ||
     birthday.lastName.trim().length === 0 ||
-    !birthday.email ||
-    birthday.email.trim().length === 0 ||
     !birthday.dateOfBirth ||
     birthday.dateOfBirth.trim().length === 0
   ) {

@@ -6,7 +6,7 @@ The app defines following CRUD APIs.
 
 ### Auth
 
-| Method | Url                   | Description | Sample Valid Request Body | 
+| Method | Url                   | Description | Sample Valid Request Body |
 |--------|-----------------------|-------------|---------------------------|
 | POST   | /api/v1/users/sign-in | Sign in     | [JSON](#signin)           |
 
@@ -19,19 +19,18 @@ The app defines following CRUD APIs.
 | POST   | /api/v1/users              | Create new user   | [JSON](#usercreate)       |
 | PUT    | /api/v1/users/:id          | Update user       | [JSON](#userupdate)       |
 | DELETE | /api/v1/users/:id          | Delete user       |                           |
-| GET    | /api/v1/users/current/info | Get current user  |                           |
 | GET    | /api/v1/users/email/:email | Get user by email |                           |
 
-### Friend
+### Birthday
 
-| Method | Url                          | Description                   | Sample Valid Request Body |
-|--------|------------------------------|-------------------------------|---------------------------|
-| GET    | /api/v1/friends              | Get all friends               |                           |
-| GET    | /api/v1/friends/:id          | Get friend by id              |                           |
-| POST   | /api/v1/friends              | Create new friend             | [JSON](#friendcreate)     |
-| PUT    | /api/v1/friends/:id          | Update friend                 | [JSON](#friendupdate)     |
-| DELETE | /api/v1/friends/:id          | Delete friend                 |                           |
-| GET    | /api/v1/friends/email/:email | Get friends for user by email |                           |
+| Method | Url                            | Description                    | Sample Valid Request Body |
+|--------|--------------------------------|--------------------------------|---------------------------|
+| GET    | /api/v1/birthdays              | Get all birthdays              |                           |
+| GET    | /api/v1/birthdays/:id          | Get birthday by id             |                           |
+| POST   | /api/v1/birthdays              | Create new birthday            | [JSON](#birthdaycreate)   |
+| PUT    | /api/v1/birthdays/:id          | Update birthday                | [JSON](#birthdayupdate)   |
+| DELETE | /api/v1/birthdays/:id          | Delete birthday                |                           |
+| GET    | /api/v1/birthdays/email/:email | Get birthday for user by email |                           |
 
 ## Sample Valid JSON Request Bodies
 
@@ -64,7 +63,7 @@ The app defines following CRUD APIs.
 }
 ```
 
-##### <a id="friendcreate">Create New Friend -> /api/v1/friends</a>
+##### <a id="birthdaycreate">Create New Birthday -> /api/v1/birthdays</a>
 
 ```json
 {
@@ -76,7 +75,7 @@ The app defines following CRUD APIs.
 }
 ```
 
-##### <a id="friendupdate">Update Friend -> /api/v1/friends/:id</a>
+##### <a id="birthdayupdate">Update Birthday -> /api/v1/birthdays/:id</a>
 
 ```json
 {

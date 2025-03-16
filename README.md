@@ -69,7 +69,6 @@ The app defines following CRUD APIs.
 {
   "firstName": "Philip",
   "lastName": "Fry",
-  "email": "philip.fry@gmail.com",
   "dateOfBirth": "1974-08-17",
   "emailOfUser": "bart.simpson@gmail.com"
 }
@@ -81,7 +80,6 @@ The app defines following CRUD APIs.
 {
   "firstName": "Philip",
   "lastName": "Fry",
-  "email": "philip.fry@gmail.com",
   "dateOfBirth": "1974-08-17",
   "emailOfUser": "bart.simpson@gmail.com"
 }
